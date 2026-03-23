@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+jspm_packages/
+bower_components/
+
+# Logs and databases
+*.log
+npm-debug.log*
+.env
+
+# Build/Coverage
+build/Release
+coverage/
