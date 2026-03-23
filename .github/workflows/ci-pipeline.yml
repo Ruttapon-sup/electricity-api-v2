@@ -1,11 +1,11 @@
-name: Node.js CI with Docker Build
+name: Production CI/CD Pipeline
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  test-and-build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,10 +20,18 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Lint check (Syntax Check)
-        run: node --check index.js
+      - name: Run Unit Tests
+        run: npm test
+
+  build-and-push:
+    needs: test  # This job runs only if "test" passes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Build Docker Image
         run: |
-          docker build -t electricity-api:${{ github.sha }} .
-          echo "Build successful for commit ${{ github.sha }}"
+          docker build -t electricity-api:prod-${{ github.sha }} .
+          echo "Production image built successfully."
