@@ -55,7 +55,7 @@ describe('Electricity API Comprehensive Test Suite', () => {
   });
 
   // API 3: Usage of specific province by specific year
-  it('valid - Usage of specific province (Krabi) by year 2566', async () => {
+  it('valid - Usage of specific province (Krabi) by year (2566)', async () => {
     const province = 'krabi';
     const year = 2566;
     const res = await request(app).get(`/api/usage/${province}/${year}`);
@@ -70,12 +70,12 @@ describe('Electricity API Comprehensive Test Suite', () => {
     expect(res.body).toEqual(expected);
     });
   it('invalid - Usage of specific province (London) by (2566)', async () => {
-    const res = await request(app).post('/api/usage/London/2566');
-    expect(res.status).toBe(404);
+    const res = await request(app).get('/api/usage/London/2566');
+    expect(res.body.message).toBe('Data not found');
   });
 
   // API 4: Users of specific province by specific year
-  it('valid - Users of specific province (Krabi) by year 2566', async () => {
+  it('valid - Users of specific province (Krabi) by year (2566)', async () => {
     const province = 'krabi';
     const year = 2566;
 
@@ -92,8 +92,8 @@ describe('Electricity API Comprehensive Test Suite', () => {
     expect(res.body).toEqual(expected);
     });
     it('invalid - Users of specific province (London) by (2566)', async () => {
-        const res = await request(app).post('/api/usage/London/2566');
-        expect(res.status).toBe(404);
+        const res = await request(app).get('/api/usage/London/2566');
+        expect(res.body.message).toBe('Data not found');
     });
 
   // API 5: Usage history by specific province
@@ -109,9 +109,9 @@ describe('Electricity API Comprehensive Test Suite', () => {
     expect(res.status).toBe(200);
     expect(res.body).toEqual(expected);
   });
-  it('invalid - Users of specific province (London) by (2566)', async () => {
-    const res = await request(app).post('/api/usage_history/London');
-    expect(res.status).toBe(404);
+  it('invalid - Usages of specific province (London)', async () => {
+    const res = await request(app).get('/api/usage_history/London');
+    expect(res.body).toEqual([]);
   });
 
     // API 6: User history by specific province
@@ -127,8 +127,8 @@ describe('Electricity API Comprehensive Test Suite', () => {
         expect(res.status).toBe(200);
         expect(res.body).toEqual(expected);
       });
-      it('invalid - Users of specific province (London) by (2566)', async () => {
-        const res = await request(app).post('/api/users_history/London');
-        expect(res.status).toBe(404);
+      it('invalid - Users of specific province (London)', async () => {
+        const res = await request(app).get('/api/users_history/London');
+        expect(res.body).toEqual([]);
       });
 });
